@@ -1,8 +1,4 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-/*import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-*/
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';

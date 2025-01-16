@@ -1,31 +1,41 @@
 /* eslint-disable max-len */
-/* eslint-disable func-call-spacing */
-/* eslint-disable no-unused-vars */
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
-const { useStripe } = require("@stripe/react-stripe-js");
-const stripe = require("stripe")("sk_test_51LXZ4oLDYQmKiWABNN7PTidlOWKiJe3PgPcNPNsYaYVHCOYUvTqbRfLz9vUGYIEyvgwBwpaYWv6BV9RX3Au4ornK003rr9uhdi");
+const stripe = require("stripe")(
+    "sk_test_51HPvU9DFg5koCdLGeOEiFvwHat4v8eMjX6SY0YCwxPBQBUPhKy1fPVhiSM5cQtgW7QBG9ydQcXnW57TDxVE2f3H000HSfmEQZF"
+);
 
-//  App config
+// API
+
+// - App config
 const app = express();
-//  Middleware
+
+// - Middlewares
 app.use(cors({origin: true}));
 app.use(express.json());
-//  API routes
+
+// - API routes
 app.get("/", (request, response) => response.status(200).send("hello world"));
-app.post('/payments/create', async (request, response) => {
+
+app.post("/payments/create", async (request, response) => {
   const total = request.query.total;
 
-  console.log('Payment request received for ', total)
+  console.log("Payment Request Recieved BOOM!!! for this amount >>> ", total);
 
-  const paymentIntent = await useStripe.paymentIntents.create({
-    amount: total,
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: total, // subunits of the currency
     currency: "usd",
   });
+
+  // OK - Created
   response.status(201).send({
     clientSecret: paymentIntent.client_secret,
-  })
-})
-//  Listen Command
+  });
+});
+
+// - Listen command
 exports.api = functions.https.onRequest(app);
+
+// Example endpoint
+// http://localhost:5001/challenge-4b2b2/us-central1/api
